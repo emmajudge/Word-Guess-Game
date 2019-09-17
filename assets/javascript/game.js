@@ -1,4 +1,4 @@
-//code from group activity completed in class 
+//code from group activity completed in class (with Dan and Dawid)
 //Word pool for computer to choose
 var names = [
     "car",
@@ -21,7 +21,8 @@ var names = [
 var wins            =   0;
 var losses          =   0;
 var chances         =   9;
-var wrongGuesses    =   "";
+var wrongGuesses    =   [];
+// var wrongGuesses    =   "";
 
 // Mystery word. THis is the word the user needs to guess
 // for (let index = 0; index < names.length; index++) {
@@ -53,10 +54,12 @@ document.onkeypress = function (event) {
 
     console.log('blanks', blanks);
     updateWordOnPage();
+    updateFails();
+    updateWins();
 }
 function checkLetterInWord(letter, word) {
-    return word.includes(letter);    
-}
+    return word.includes(letter);  
+} 
 
 function getLetterPosition(letter, word) {
     var letterIndex = [];
@@ -72,10 +75,21 @@ function updateWordOnPage() {
     document.getElementById("word-blanks").innerHTML = blanks.join(" ");
 }
 
+function updateFails(){
+    if(updateWordOnPage()){
+        console.log("good guess")
+    }else{
+        document.getElementById("wrongGuesses").innerHTML=wrongGuesses.push(event);
+        document.getElementById("chances").innerHTML=chances--
+    }
+}
+
+function updateWins(){
+    if(blanks===mysteryWord){
+        document.getElementById("wins").innerHTML=wins++
+    }
+}
 
 console.log(mysteryWord);
-// Game loop....
 
-//////  
-
-document.getElementById("word-blanks").innerHTML = mysteryWord;
+// document.getElementById("word-blanks").innerHTML = mysteryWord;

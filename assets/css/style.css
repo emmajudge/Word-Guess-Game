@@ -1,3 +1,10 @@
 body {
-    background: url("../images/bryceCanyon.jpg");
+    background: url("../images/concrete.jpg");
+}
+
+.game-container{
+    width: 800px;
+    height: 400px;
+    background-color: aquamarine;
+    text-align: center;
 }

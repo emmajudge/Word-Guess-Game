@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,33 @@
     <title>Word Guess Game</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-    
+    <main class="game-container">
+        <h1>Guess any letter to get started!</h1>
+        <div id="wins">
+            Wins:
+        </div>
 
-<script src="assets/javascript/game.js"></script>
+        <div id="current-word">
+            Current Word:
+            <div id="word-blanks">
 
+            </div>
+        </div>
+
+        Number of Guesses Remaining:
+        <div id="chances">
+           
+        </div>
+        
+        Letters Already Guessed:
+        <div id="wrongGuesses">
+            
+        </div>
+
+    </main>
+    <script src="assets/javascript/game.js"></script>
 </body>
+
 </html>
