@@ -42,6 +42,7 @@ document.onkeypress = function (event) {
     console.log(event);
 
     var hasLetter = checkLetterInWord(userInput, mysteryWord);
+    // var noMatch= !hasLetter;
 
     var letterPositions = getLetterPosition(userInput, mysteryWord);
 
@@ -58,7 +59,7 @@ document.onkeypress = function (event) {
     updateWins();
 }
 function checkLetterInWord(letter, word) {
-    return word.includes(letter);  
+    console.log (word.includes(letter));  
 } 
 
 function getLetterPosition(letter, word) {
@@ -79,11 +80,17 @@ function updateFails(){
     if(updateWordOnPage()){
         console.log("good guess")
     }else{
-        document.getElementById("wrongGuesses").innerHTML=wrongGuesses.push(event);
+        // currently it is pushing the number of wrong guesses instead of the letters
+        // need to update so it lists the actual userInput or letter guessed
+        document.getElementById("wrongGuesses").innerHTML=wrongGuesses.push(event.key);
+        // need to update so game resets once chances hits/below 0 - currently allows negative
+        // also the chances should not decrement when user guesses a letter correctly
         document.getElementById("chances").innerHTML=chances--
     }
 }
 
+// not working yet, need to update such that win count increases by 1 when all blanks
+// have been guessed correctly, then reset the game (new word and reset guesses remaining)
 function updateWins(){
     if(blanks===mysteryWord){
         document.getElementById("wins").innerHTML=wins++
