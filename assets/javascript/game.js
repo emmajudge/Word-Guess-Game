@@ -18,85 +18,125 @@ var names = [
 ]
 
 //intialize variables
-var wins            =   0;
-var losses          =   0;
-var chances         =   9;
-var wrongGuesses    =   [];
+var wins = 0;
+var losses = 0;
+var chances = 8;
+var wrongGuesses = [];
 // var wrongGuesses    =   "";
 
 // Mystery word. THis is the word the user needs to guess
-// for (let index = 0; index < names.length; index++) {
-    var mysteryWord = names[Math.floor(Math.random() * names.length)];
+var mysteryWord = names[Math.floor(Math.random() * names.length)];
 
-    var blanks  =   [];
-    for (let index = 0; index < mysteryWord.length; index++) {
-        blanks.push("_");
-        document.getElementById("word-blanks").innerHTML   =   blanks.join(" ");
-        
+var blanks = [];
+for (let index = 0; index < mysteryWord.length; index++) {
+    blanks.push("_");
+    document.getElementById("word-blanks").innerHTML = blanks.join(" ");
         console.log(blanks);
-        
     }
 
-document.onkeypress = function (event) {
-    var userInput   =   event.key;
-    console.log(event);
+// post starting stats to screen
+document.getElementById("wins").innerHTML = wins
+document.getElementById("chances").innerHTML = chances
+document.getElementById("wrongGuesses").innerHTML = wrongGuesses
 
-    var hasLetter = checkLetterInWord(userInput, mysteryWord);
-    // var noMatch= !hasLetter;
+var blanksRemaining = blanks.length;
 
-    var letterPositions = getLetterPosition(userInput, mysteryWord);
+// Game loop - referenced https://nostarch.com/download/JS4K_ch7.pdf for help
+// while (blanksRemaining > 0){
 
-    var sample = getLetterPosition('p', 'apple');
-    console.log('sample', sample)
 
-    letterPositions.forEach(function name(index) {
-        blanks[index] = userInput;
-    })
+for (let i = 0; i < mysteryWord.length; i++) {
+    if (blanksRemaining===0 || chances === 0) {
+        break;
+    } else {
+        document.onkeypress = function (event) {
+            var userInput = event.key;
+            console.log(event);
 
-    console.log('blanks', blanks);
-    updateWordOnPage();
-    updateFails();
-    updateWins();
-}
+            var hasLetter = checkLetterInWord(userInput, mysteryWord);
+
+            var letterPositions = getLetterPosition(userInput, mysteryWord);
+
+            letterPositions.forEach(function name(index) {
+                blanks[index] = userInput;
+                blanksRemaining--
+                console.log("blanks rem", blanksRemaining)
+            });
+            // if (blanksRemaining === 0) {
+            
+            // } 
+
+            updateWordOnPage();
+
+            var noMatch = updateWrongGuesses(userInput, mysteryWord);
+            updateWins();
+        }
+    }
+};
+
+// define global functions
 function checkLetterInWord(letter, word) {
-    console.log (word.includes(letter));  
-} 
+    console.log(word.includes(letter));
+}
 
 function getLetterPosition(letter, word) {
     var letterIndex = [];
     for (let index = 0; index < word.length; index++) {
-        if(word[index] === letter){
+        if (word[index] === letter) {
             letterIndex.push(index);
         }
     }
-   return letterIndex; 
+    return letterIndex;
 }
 
 function updateWordOnPage() {
     document.getElementById("word-blanks").innerHTML = blanks.join(" ");
 }
 
-function updateFails(){
-    if(updateWordOnPage()){
-        console.log("good guess")
-    }else{
-        // currently it is pushing the number of wrong guesses instead of the letters
-        // need to update so it lists the actual userInput or letter guessed
-        document.getElementById("wrongGuesses").innerHTML=wrongGuesses.push(event.key);
-        // need to update so game resets once chances hits/below 0 - currently allows negative
-        // also the chances should not decrement when user guesses a letter correctly
-        document.getElementById("chances").innerHTML=chances--
+function updateWrongGuesses(letter, word) {
+    if (word.includes(letter) === false) {
+        wrongGuesses.push(letter);
+        document.getElementById("wrongGuesses").innerHTML = wrongGuesses
+        document.getElementById("chances").innerHTML = chances--
     }
 }
 
-// not working yet, need to update such that win count increases by 1 when all blanks
-// have been guessed correctly, then reset the game (new word and reset guesses remaining)
-function updateWins(){
-    if(blanks===mysteryWord){
-        document.getElementById("wins").innerHTML=wins++
+function updateWins() {
+    if (blanksRemaining <= 0) {
+        document.getElementById("wins").innerHTML = wins++
     }
 }
+
+// function resetGame(){
+    
+//     document.getElementById("chances").innerHTML = chances 
+// }
 
 console.log(mysteryWord);
+
+
+// initialize variable that tracks how many blank spaces are remaining. This allows us to make a while loop so the game loop continues until there all the letters are guesses (i.e. no more blanks remaining) or user runs out of chances 
+// var blanksRemaining = mysteryWord.length;
+
+// Game loop - referenced https://nostarch.com/download/JS4K_ch7.pdf for help
+// while (blanksRemaining > 0) 
+// for (let i=0; i<blanksRemaining; i++){}
+
+// function updateFails() {
+    // if (updateWordOnPage()) {
+    //     console.log("good guess")
+    // } else {
+        // currently it is pushing the number of wrong guesses instead of the letters
+        // need to update so it lists the actual userInput or letter guessed
+        // document.getElementById("wrongGuesses").innerHTML = wrongGuesses.push("letter");
+        // need to update so game resets once chances hits/below 0 - currently allows negative
+        // also the chances should not decrement when user guesses a letter correctly
+//         document.getElementById("chances").innerHTML = chances--
+// }
+
+
+
+// updateFails();
+// updateWins();
 
 // document.getElementById("word-blanks").innerHTML = mysteryWord;
